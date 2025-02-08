@@ -1,8 +1,8 @@
+from colorama import Fore, Style, init
+from prettytable import PrettyTable
 import requests
 from urllib.parse import urljoin
 import re
-from colorama import Fore, Style, init
-from prettytable import PrettyTable
 
 # Inicializa o Colorama para adicionar cores ao console
 init()
@@ -96,7 +96,7 @@ def attack_sql_injection(url):
             # Filtrar dados para encontrar apenas usernames e passwords
             usernames = re.findall(r"(?:username|user|login)[\s:]*([^\s]*)", response.text, re.IGNORECASE)
             passwords = re.findall(r"(?:password|pass|pwd)[\s:]*([^\s]*)", response.text, re.IGNORECASE)
-            
+
             if usernames and passwords:
                 for username, password in zip(usernames, passwords):
                     add_result("SQL Injection Attack", test_url, f"Username: {username}, Password: {password}")
@@ -173,37 +173,50 @@ def export_results_to_file(filename):
     with open(filename, 'w') as f:
         f.write(str(results_table))
 
+# Banner
+def print_banner():
+    print(Fore.GREEN + r"""
+     _____ _    _ _______ ______  _____ _______ _______
+    |  __ \ |  | |__   __|  ____|/ ____|__   __|__   __|
+    | |__) | |  | |  | |  | |__  | (___    | |     | |
+    |  ___/| |  | |  | |  |  __|  \___ \   | |     | |
+    | |    | |__| |  | |  | |____ ____) |  | |     | |
+    |_|     \____/   |_|  |______|_____/   |_|     |_|
+    """ + Style.RESET_ALL)
+    print(Fore.GREEN + f"Version: {version}" + Style.RESET_ALL)
+    print(Fore.GREEN + f"Created by: {creator}" + Style.RESET_ALL)
+    print(Fore.GREEN + "-" * 50 + Style.RESET_ALL)
+
 if __name__ == "__main__":
-    print(f"\n{Fore.YELLOW}{program_name} - Version: {version}{Style.RESET_ALL}")
-    print(f"{Fore.YELLOW}Created by: {creator}{Style.RESET_ALL}\n")
+    print_banner()
 
-    target_url = input("Enter the target URL: ")
+    target_url = input(Fore.GREEN + "Enter the target URL: " + Style.RESET_ALL)
 
-    print(f"\n{Fore.CYAN}Checking for sensitive directories and files...{Style.RESET_ALL}")
+    print(f"\n{Fore.GREEN}Checking for sensitive directories and files...{Style.RESET_ALL}")
     check_directories_and_files(target_url)
 
-    print(f"\n{Fore.CYAN}Testing for SQL Injection...{Style.RESET_ALL}")
+    print(f"\n{Fore.GREEN}Testing for SQL Injection...{Style.RESET_ALL}")
     test_sql_injection(target_url)
 
-    print(f"\n{Fore.CYAN}Testing for XSS...{Style.RESET_ALL}")
+    print(f"\n{Fore.GREEN}Testing for XSS...{Style.RESET_ALL}")
     test_xss(target_url)
 
-    print(f"\n{Fore.CYAN}Testing for IDOR...{Style.RESET_ALL}")
+    print(f"\n{Fore.GREEN}Testing for IDOR...{Style.RESET_ALL}")
     test_idor(target_url)
 
-    print(f"\n{Fore.CYAN}Testing for SSRF...{Style.RESET_ALL}")
+    print(f"\n{Fore.GREEN}Testing for SSRF...{Style.RESET_ALL}")
     test_ssrf(target_url)
 
-    print(f"\n{Fore.CYAN}Testing for login vulnerabilities...{Style.RESET_ALL}")
+    print(f"\n{Fore.GREEN}Testing for login vulnerabilities...{Style.RESET_ALL}")
     test_login(target_url)
 
     print(f"\n{Fore.GREEN}Advanced attack testing complete.{Style.RESET_ALL}")
     print(results_table)
-    
+
     # Exporta os resultados para um arquivo
     export_filename = "results.txt"
     export_results_to_file(export_filename)
     print(f"{Fore.GREEN}Results exported to {export_filename}.{Style.RESET_ALL}")
-    
+
     print(f"\n{Fore.GREEN}Press Enter to exit.{Style.RESET_ALL}")
     input()  # Aguarda o usuário pressionar Enter antes de fechar
