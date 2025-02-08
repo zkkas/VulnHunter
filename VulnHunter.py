@@ -10,7 +10,7 @@ init()
 # Informações do programa
 program_name = "VulnHunter"
 version = "v1.0"
-creator = "Linux da Silva"
+creator = "TRAXX"
 
 # Cabeçalhos para simular um navegador
 headers = {
