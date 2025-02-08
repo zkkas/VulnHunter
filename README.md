@@ -1,7 +1,7 @@
 # VulnHunter
 
 **Versão:** v1.0  
-**Criado por:** Linux da Silva
+**Criado por:** TRAXX
 
 ## Descrição
 
